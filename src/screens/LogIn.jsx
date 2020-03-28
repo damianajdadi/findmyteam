@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
 class Login extends React.Component {
@@ -38,6 +37,7 @@ class Login extends React.Component {
       })
       .then(function(response) {
         if (response.success === "true") {
+          localStorage.setItem("user_id", response.user[0]._id);
           window.location.href = "http://localhost:3000/home";
         } else {
           alert("Usuario no encontrado");
