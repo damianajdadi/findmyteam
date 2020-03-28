@@ -1,11 +1,13 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
+import { Redirect } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+
+//INCOMPLETOOOOOOO NO MANDAAAAR NOOOOOO
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -47,11 +49,13 @@ class SignUp extends React.Component {
     fetch("http://localhost:5000/api/users", requestOptions).then(response => {
       response.json();
     });
+    return <Redirect to="http://localhost:3000/" />;
   };
 
   render() {
     return (
       <div>
+        <h1>REGISTRO INCOMPLETO</h1>
         <form noValidate autoComplete="off" onSubmit={this.handleOnSubmit}>
           <TextField
             value={this.state.email}

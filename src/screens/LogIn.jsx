@@ -21,7 +21,30 @@ class Login extends React.Component {
     return this.state.email.length > 0 && this.state.password.length > 0;
   };
 
-  handleSubmit = event => event.preventDefault();
+  handleSubmit = event => {
+    const urlApi = "http://localhost:5000/api/users/login";
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password
+      })
+    };
+    fetch(urlApi, opts)
+      .then(function(response) {
+        console.log("POST SUCCESS");
+        return response.json();
+      })
+      .then(function(response) {
+        if (response.success === "true") {
+          window.location.href = "http://localhost:3000/home";
+        } else {
+          alert("Usuario no encontrado");
+        }
+      });
+    event.preventDefault();
+  };
 
   render() {
     return (
@@ -45,15 +68,12 @@ class Login extends React.Component {
             onChange={this.handleOnChangePassword}
           />
           <br />
+          <input
+            type="submit"
+            value="Submit"
+            disabled={!this.validationRules()}
+          />
         </form>
-        <Button
-          label="Submit"
-          disabled={!this.validationRules()}
-          variant="contained"
-          color="primary"
-        >
-          LOGIN
-        </Button>
         <br />
         <Link to="/signup">¿Aún no eres miembro? ¡Regístrate ya!</Link>
       </div>

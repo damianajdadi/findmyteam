@@ -114,6 +114,30 @@ app.post("/api/users", (req, res) => {
   });
 });
 
+//LOGIN -> POST 
+
+app.post("/api/users/login", (req, res) => {
+
+  Users.find(
+    { $and: [{ "email": req.body.email }, { "password": req.body.password }] },
+    (err, data) => {
+      console.log(data);
+      if (data.length !== 0) {
+        res.status(200).send({
+          success: "true",
+          message: "User encontrado",
+          user: data
+        })
+      } else {
+        res.status(401).send({
+          success: "false",
+          message: "User y/o password no encontrados",
+        })
+      }
+    }
+  )
+});
+
 /* PUT modifica una fruta
 app.put("/api/frutas/:id", (req, res) => {
   Frutas.findById(req.params.id, (err, data) => {
