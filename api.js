@@ -5,7 +5,8 @@ const app = appInitConf();
 mongoDbInit();
 
 const Sports = require("./models/sports");
-const Users = require("./models/users")
+const Users = require("./models/users");
+const Offers = require("./models/offers")
 
 
 // GET filtrado
@@ -114,6 +115,8 @@ app.post("/api/users", (req, res) => {
   });
 });
 
+
+
 //LOGIN -> POST 
 
 app.post("/api/users/login", (req, res) => {
@@ -136,6 +139,63 @@ app.post("/api/users/login", (req, res) => {
       }
     }
   )
+});
+
+// GET offers
+app.get("/api/offers", (req, res) => {
+
+  Offers.find((err, data) => {
+    if (!err) {
+      res.status(200).send({
+        success: 'true',
+        message: 'GET: OFFERS',
+        offers: data,
+      });
+    } else {
+      throw error;
+    }
+  });
+});
+
+
+
+// GET ONE sport
+app.get("/api/offers/:id", (req, res) => {
+  Offers.findById(req.params.id, (err, data) => {
+    if (!err) {
+      res.status(200).send({
+        success: 'true',
+        message: 'GET ONE: OFFERS',
+        offers: data,
+      });
+    } else {
+      throw error;
+    }
+  });
+});
+
+// POST ONE OFFER
+app.post("/api/offers", (req, res) => {
+
+  const offer = new Offers({
+    team_id: req.body.team_id,
+    sport_id: req.body.sport_id,
+    position_id: req.body.position_id,
+    city: req.body.city,
+    notes: req.body.notes
+  });
+
+  offer.save((err) => {
+    if (!err) {
+      res.status(201).send({
+        success: 'true',
+        message: 'POST ONE: OFFER',
+        offer
+      });
+    } else {
+      throw error;
+    }
+  });
 });
 
 /* PUT modifica una fruta
