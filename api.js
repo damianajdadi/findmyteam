@@ -159,7 +159,7 @@ app.get("/api/offers", (req, res) => {
 
 
 
-// GET ONE sport
+// GET ONE offers
 app.get("/api/offers/:id", (req, res) => {
   Offers.findById(req.params.id, (err, data) => {
     if (!err) {
@@ -182,6 +182,7 @@ app.post("/api/offers", (req, res) => {
     sport_id: req.body.sport_id,
     position_id: req.body.position_id,
     city: req.body.city,
+    category: req.body.category,
     notes: req.body.notes
   });
 

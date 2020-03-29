@@ -4,17 +4,7 @@ import MenuAppBar from "../components/MenuAppBar";
 import TableFooter from "../components/TableFooter";
 
 class NewOffer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      notes: ""
-    };
-  }
-
-  handleOnChangeNotes = event => this.setState({ notes: event.target.value });
-
   render() {
-    debugger;
     return (
       <div>
         <MenuAppBar />
