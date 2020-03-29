@@ -2,7 +2,7 @@ import React from "react";
 import MenuAppBar from "../components/MenuAppBar";
 import TableFooter from "../components/TableFooter";
 import ResultsList from "./ResultsList";
-import OffersForm from "./OffersForm";
+import OffersForm from "../components/inputs/OffersForm";
 
 const styles = {
   root: {

@@ -49,7 +49,7 @@ export default function MenuAppBar() {
   };
 
   const onClickSearch = () => {
-    window.location.href = "/search";
+    window.location.href = "/offers/search";
   };
 
   const onClickCandidacies = () => {

@@ -1,7 +1,6 @@
 import React from "react";
-import SportsSelector from "../components/inputs/SportsSelector";
-import PositionsSelector from "../components/inputs/PositionsSelector";
-import Button from "@material-ui/core/Button";
+import SportsSelector from "./SportsSelector";
+import PositionsSelector from "./PositionsSelector";
 import TextField from "@material-ui/core/TextField";
 
 class OffersForm extends React.Component {
@@ -12,7 +11,9 @@ class OffersForm extends React.Component {
       selectedPosition: null,
       availableSports: [],
       availablePositions: [],
-      city: ""
+      notes: "",
+      city: "",
+      category: ""
     };
   }
 
@@ -36,7 +37,11 @@ class OffersForm extends React.Component {
   handleOnChangePosition = event =>
     this.setState({ selectedPosition: event.target.value });
 
+  handleOnChangeName = event => this.setState({ name: event.target.value });
+
   handleOnChangeCity = event => this.setState({ city: event.target.value });
+
+  handleOnChangeNotes = event => this.setState({ notes: event.target.value });
 
   _fetchApi = () => {
     fetch("http://localhost:5000/api/sports")
@@ -67,27 +72,48 @@ class OffersForm extends React.Component {
           positions={this.state.availablePositions}
           handleOnChangePosition={this.handleOnChangePosition}
         />
-        <br />
       </div>
     );
   }
+  renderNotes = () => {
+    if (window.location.pathname === "/offers/new") {
+      return (
+        <TextField
+          value={this.state.notes}
+          id="outlined-basic"
+          label="Notas"
+          variant="outlined"
+          onChange={this.handleOnChangeNotes}
+        />
+      );
+    }
+    return null;
+  };
   render() {
     return (
       <div>
-        {this.renderSelectors()}
-        <TextField
-          value={this.state.city}
-          type="text"
-          id="outlined-basic"
-          label="Ciudad"
-          variant="outlined"
-          onChange={this.handleOnChangeCity}
-        />
-        <br />
-
-        <Button label="Submit" variant="contained" color="primary">
-          Buscar
-        </Button>
+        <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+          {this.renderSelectors()}
+          <TextField
+            value={this.state.city}
+            id="outlined-basic"
+            label="Ciudad"
+            variant="outlined"
+            onChange={this.handleOnChangeCity}
+          />
+          <br />
+          <TextField
+            value={this.state.category}
+            id="outlined-basic"
+            label="Categoria"
+            variant="outlined"
+            onChange={this.handleOnChangeCategory}
+          />
+          <br />
+          {this.renderNotes()}
+          <br />
+          <input type="submit"></input>
+        </form>
       </div>
     );
   }
