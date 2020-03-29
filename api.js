@@ -176,26 +176,27 @@ app.get("/api/offers/:id", (req, res) => {
 
 // POST ONE OFFER
 app.post("/api/offers", (req, res) => {
-
-  const offer = new Offers({
-    team_id: req.body.team_id,
-    sport_id: req.body.sport_id,
-    position_id: req.body.position_id,
-    city: req.body.city,
-    category: req.body.category,
-    notes: req.body.notes
-  });
-
-  offer.save((err) => {
-    if (!err) {
-      res.status(201).send({
-        success: 'true',
-        message: 'POST ONE: OFFER',
-        offer
-      });
-    } else {
-      throw error;
-    }
+  console.log(req.body)
+  Users.findById(req.body.team_id, (err, data) => {
+    let user = data;
+    const offer = new Offers({
+      team: user,
+      sport: req.body.sport,
+      position: req.body.position,
+      city: req.body.city,
+      notes: req.body.notes
+    });
+    offer.save((err) => {
+      if (!err) {
+        res.status(201).send({
+          success: 'true',
+          message: 'POST ONE: OFFER',
+          offer
+        });
+      } else {
+        throw error;
+      }
+    });
   });
 });
 
@@ -203,11 +204,21 @@ app.post("/api/offers", (req, res) => {
 
 //POST SEARCH
 app.post("/api/offers/search", (req, res) => {
-  debugger;
 
+  const andArray = [];
+  if (req.body.sport_id !== undefined) {
+    andArray.push({ "sport_id": req.body.sport_id })
+  }
+  if (req.body.position_id !== undefined) {
+
+    andArray.push({ "position_id": req.body.position_id })
+  }
+  if (req.body.city !== undefined) {
+
+    andArray.push({ "city": req.body.city })
+  }
   Offers.find(
-    //{ $and: [{ "sport_id": req.body.sport_id }, { "position_id": req.body.position_id }, { "city": req.body.city }, { "category": req.body.category }] },
-    { $and: [{ "sport_id": req.body.sport_id }] },
+    { $and: andArray },
     (err, data) => {
       console.log(data);
       if (data.length !== 0) {

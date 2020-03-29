@@ -31,12 +31,17 @@ class Search extends React.Component {
   };
 
   renderResults = () => {
+    let results = this.state.results ? this.state.results : [];
     return (
       <List>
-        {this.state.results.map(result => (
+        {results.map(result => (
           <div>
             <ListItem alignItems="flex-start">
-              <ListItemText primary={result.city} />
+              <ListItemText
+                primary={
+                  "Equipo de " + result.city + " busca " + result.position_id
+                }
+              />
             </ListItem>
             <Divider variant="inset" component="li" />
           </div>

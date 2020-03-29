@@ -8,7 +8,7 @@ const SportsSelector = props => {
   const { value, sports, handleOnChangeSport } = props;
   const renderSports = () =>
     sports.map(sport => (
-      <MenuItem key={sport._id} value={sport._id}>
+      <MenuItem key={sport._id} value={sport._id} object={sport}>
         {sport.name}
       </MenuItem>
     ));

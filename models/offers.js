@@ -3,8 +3,9 @@ const Schema = mongoose.Schema;
 
 const offerSchema = new Schema({
     team_id: String,
-    sport_id: String,
-    position_id: String,
+    team: Object,
+    sport: Object,
+    position: Object,
     city: String,
     notes: String
 }, {

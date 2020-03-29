@@ -8,7 +8,7 @@ const PositionsSelector = props => {
   const { value, positions, handleOnChangePosition } = props;
   const renderPositions = () =>
     positions.map(position => (
-      <MenuItem key={position._id} value={position._id}>
+      <MenuItem key={position._id} value={position._id} object={position}>
         {position.name}
       </MenuItem>
     ));

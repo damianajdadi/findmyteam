@@ -7,13 +7,12 @@ class OffersForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedSport: null,
-      selectedPosition: null,
+      selectedSport: "",
+      selectedPosition: "",
       availableSports: [],
       availablePositions: [],
       notes: "",
       city: "",
-      category: "",
       search: "",
       resultsValue: []
     };
@@ -31,22 +30,20 @@ class OffersForm extends React.Component {
     });
   };
 
-  handleOnChangeSport = event => {
-    this.setState({ selectedSport: event.target.value });
+  handleOnChangeSport = (event, data) => {
+    this.setState({ selectedSport: data.props.object });
     this.definePositions(event.target.value);
   };
 
-  handleOnChangePosition = event =>
-    this.setState({ selectedPosition: event.target.value });
+  handleOnChangePosition = (event, data) => {
+    this.setState({ selectedPosition: data.props.object });
+  };
 
   handleOnChangeName = event => this.setState({ name: event.target.value });
 
   handleOnChangeCity = event => this.setState({ city: event.target.value });
 
   handleOnChangeNotes = event => this.setState({ notes: event.target.value });
-
-  handleOnChangeCategory = event =>
-    this.setState({ category: event.target.value });
 
   _fetchApi = () => {
     fetch("http://localhost:5000/api/sports")
@@ -72,11 +69,10 @@ class OffersForm extends React.Component {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        team_id: localStorage.getItem("user_id"),
-        sport_id: this.state.selectedSport,
-        position_id: this.state.selectedPosition,
+        team_id: localStorage.getItem("user_id").replace(/"/g, ""),
+        sport: this.state.selectedSport,
+        position: this.state.selectedPosition,
         city: this.state.city,
-        category: this.state.category,
         notes: this.state.notes
       })
     };
@@ -87,16 +83,20 @@ class OffersForm extends React.Component {
 
   handleSearchOffer = event => {
     const urlApi = "http://localhost:5000/api/offers/search";
+    const body = {};
+    if (this.state.selectedSport.length > 0) {
+      body["sport_id"] = this.state.selectedSport;
+    }
+    if (this.state.selectedPosition.length > 0) {
+      body["position_id"] = this.state.selectedPosition;
+    }
+    if (this.state.city.length > 0) {
+      body["city"] = this.state.city;
+    }
     const opts = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sport_id: this.state.selectedSport,
-        position_id: this.state.selectedPosition,
-        city: this.state.city,
-        category: this.state.category,
-        notes: this.state.notes
-      })
+      body: JSON.stringify(body)
     };
     fetch(urlApi, opts)
       .then(function(response) {
@@ -104,7 +104,6 @@ class OffersForm extends React.Component {
         return response.json();
       })
       .then(data => {
-        //this.setState({ resultsValue: data.offer });
         this.props.onDefineResults(data.offer);
       });
     event.preventDefault();
@@ -118,13 +117,13 @@ class OffersForm extends React.Component {
     return (
       <div>
         <SportsSelector
-          value={this.state.selectedSport}
+          value={this.state.selectedSport._id}
           sports={this.state.availableSports}
           handleOnChangeSport={this.handleOnChangeSport}
         />
         <br />
         <PositionsSelector
-          value={this.state.selectedPosition}
+          value={this.state.selectedPosition._id}
           positions={this.state.availablePositions}
           handleOnChangePosition={this.handleOnChangePosition}
         />
@@ -156,14 +155,6 @@ class OffersForm extends React.Component {
             label="Ciudad"
             variant="outlined"
             onChange={this.handleOnChangeCity}
-          />
-          <br />
-          <TextField
-            value={this.state.category}
-            id="outlined-basic"
-            label="Categoria"
-            variant="outlined"
-            onChange={this.handleOnChangeCategory}
           />
           <br />
           {this.renderNotes()}
