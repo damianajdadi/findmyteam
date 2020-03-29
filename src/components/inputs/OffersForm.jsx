@@ -84,11 +84,12 @@ class OffersForm extends React.Component {
   handleSearchOffer = event => {
     const urlApi = "http://localhost:5000/api/offers/search";
     const body = {};
-    if (this.state.selectedSport.length > 0) {
-      body["sport_id"] = this.state.selectedSport;
+    debugger;
+    if (this.state.selectedSport._id.length > 0) {
+      body["sport"] = this.state.selectedSport;
     }
-    if (this.state.selectedPosition.length > 0) {
-      body["position_id"] = this.state.selectedPosition;
+    if (this.state.selectedPosition._id.length > 0) {
+      body["position"] = this.state.selectedPosition;
     }
     if (this.state.city.length > 0) {
       body["city"] = this.state.city;

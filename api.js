@@ -124,7 +124,6 @@ app.post("/api/users/login", (req, res) => {
   Users.find(
     { $and: [{ "email": req.body.email }, { "password": req.body.password }] },
     (err, data) => {
-      console.log(data);
       if (data.length !== 0) {
         res.status(200).send({
           success: "true",
@@ -176,7 +175,6 @@ app.get("/api/offers/:id", (req, res) => {
 
 // POST ONE OFFER
 app.post("/api/offers", (req, res) => {
-  console.log(req.body)
   Users.findById(req.body.team_id, (err, data) => {
     let user = data;
     const offer = new Offers({
@@ -206,21 +204,21 @@ app.post("/api/offers", (req, res) => {
 app.post("/api/offers/search", (req, res) => {
 
   const andArray = [];
-  if (req.body.sport_id !== undefined) {
-    andArray.push({ "sport_id": req.body.sport_id })
+  if (req.body.sport !== undefined) {
+    andArray.push({ "sport._id": req.body.sport._id })
   }
-  if (req.body.position_id !== undefined) {
 
-    andArray.push({ "position_id": req.body.position_id })
+  if (req.body.position !== undefined) {
+    andArray.push({ "position._id": req.body.position._id })
   }
+
   if (req.body.city !== undefined) {
-
     andArray.push({ "city": req.body.city })
   }
+
   Offers.find(
     { $and: andArray },
     (err, data) => {
-      console.log(data);
       if (data.length !== 0) {
         res.status(200).send({
           success: "true",
