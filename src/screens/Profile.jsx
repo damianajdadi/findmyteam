@@ -35,22 +35,34 @@ class Profile extends React.Component {
       age: "",
       height: "",
       weight: "",
+      city: "",
       experience: ""
     };
   }
 
   handleOnChangeName = event => this.setState({ name: event.target.value });
+
   handleOnChangeSurname = event =>
     this.setState({ surname: event.target.value });
+
   handleOnChangePhone = event => this.setState({ phone: event.target.value });
+
   handleOnChangeSport = event => this.setState({ sport: event.target.value });
+
   handleOnChangePosition = event =>
     this.setState({ position: event.target.value });
+
   handleOnChangeDominantLeg = event =>
     this.setState({ dominantLeg: event.target.value });
+
   handleOnChangeAge = event => this.setState({ age: event.target.value });
+
   handleOnChangeHeight = event => this.setState({ height: event.target.value });
+
   handleOnChangeWeight = event => this.setState({ weight: event.target.value });
+
+  handleOnChangeCity = event => this.setState({ city: event.target.value });
+
   handleOnChangeExperience = event =>
     this.setState({ experience: event.target.value });
 
@@ -177,6 +189,14 @@ class Profile extends React.Component {
             label="Peso"
             variant="outlined"
             onChange={this.handleOnChangeWeight}
+          />
+          <br />
+          <TextField
+            value={this.state.city}
+            id="outlined-basic"
+            label="Ciudad"
+            variant="outlined"
+            onChange={this.handleOnChangeCity}
           />
           <br />
           <TextField

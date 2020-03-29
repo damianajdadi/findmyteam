@@ -8,16 +8,8 @@ class OffersForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: "",
       selectedSport: null,
       selectedPosition: null,
-      results: [
-        {
-          sport: { _id: 1, name: "Futbol" },
-          position: { id: 1, name: "Portero" },
-          team: { _id: 1, name: "Isotopos Alirion" }
-        }
-      ],
       availableSports: [],
       availablePositions: [],
       city: ""
