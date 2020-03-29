@@ -39,7 +39,12 @@ class Search extends React.Component {
             <ListItem alignItems="flex-start">
               <ListItemText
                 primary={
-                  "Equipo de " + result.city + " busca " + result.position_id
+                  "Equipo de " +
+                  result.sport.name +
+                  " en " +
+                  result.city +
+                  " busca " +
+                  result.position.name
                 }
               />
             </ListItem>

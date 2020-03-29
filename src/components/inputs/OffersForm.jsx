@@ -84,7 +84,6 @@ class OffersForm extends React.Component {
   handleSearchOffer = event => {
     const urlApi = "http://localhost:5000/api/offers/search";
     const body = {};
-    debugger;
     if (this.state.selectedSport._id.length > 0) {
       body["sport"] = this.state.selectedSport;
     }
