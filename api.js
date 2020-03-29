@@ -199,6 +199,33 @@ app.post("/api/offers", (req, res) => {
   });
 });
 
+
+
+//POST SEARCH
+app.post("/api/offers/search", (req, res) => {
+  debugger;
+
+  Offers.find(
+    //{ $and: [{ "sport_id": req.body.sport_id }, { "position_id": req.body.position_id }, { "city": req.body.city }, { "category": req.body.category }] },
+    { $and: [{ "sport_id": req.body.sport_id }] },
+    (err, data) => {
+      console.log(data);
+      if (data.length !== 0) {
+        res.status(200).send({
+          success: "true",
+          message: "Ofertas encontradas",
+          offer: data
+        })
+      } else {
+        res.status(401).send({
+          success: "false",
+          message: "Ofertas no encontradas",
+        })
+      }
+    }
+  )
+});
+
 /* PUT modifica una fruta
 app.put("/api/frutas/:id", (req, res) => {
   Frutas.findById(req.params.id, (err, data) => {

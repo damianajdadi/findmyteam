@@ -1,8 +1,11 @@
 import React from "react";
 import MenuAppBar from "../components/MenuAppBar";
 import TableFooter from "../components/TableFooter";
-import ResultsList from "./ResultsList";
 import OffersForm from "../components/inputs/OffersForm";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
+import ListItemText from "@material-ui/core/ListItemText";
 
 const styles = {
   root: {
@@ -19,25 +22,37 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: "",
-      results: [
-        {
-          sport: { _id: 1, name: "Futbol" },
-          position: { id: 1, name: "Portero" },
-          team: { _id: 1, name: "Isotopos Alirion" }
-        }
-      ]
+      results: []
     };
   }
+
+  handleResults = resultsValue => {
+    this.setState({ results: resultsValue });
+  };
+
+  renderResults = () => {
+    return (
+      <List>
+        {this.state.results.map(result => (
+          <div>
+            <ListItem alignItems="flex-start">
+              <ListItemText primary={result.city} />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+          </div>
+        ))}
+      </List>
+    );
+  };
   render() {
     return (
       <div style={styles.root}>
         <MenuAppBar />
         <div style={styles.main}>
           <h2>Buscar Ofertas</h2>
-          <OffersForm />
+          <OffersForm onDefineResults={this.handleResults} />
         </div>
-        <ResultsList results={this.state.results} />
+        {this.renderResults()}
         <TableFooter />
       </div>
     );

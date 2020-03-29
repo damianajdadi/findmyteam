@@ -15,7 +15,7 @@ class OffersForm extends React.Component {
       city: "",
       category: "",
       search: "",
-      results: []
+      resultsValue: []
     };
   }
 
@@ -62,11 +62,12 @@ class OffersForm extends React.Component {
   handleSubmit = event => {
     if (window.location.pathname === "/offers/new") {
       this.handleCreateOffer();
+    } else {
+      this.handleSearchOffer(event);
     }
   };
 
   handleCreateOffer = () => {
-    debugger;
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -84,7 +85,30 @@ class OffersForm extends React.Component {
     });
   };
 
-  handleSearchOffer = () => {};
+  handleSearchOffer = event => {
+    const urlApi = "http://localhost:5000/api/offers/search";
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sport_id: this.state.selectedSport,
+        position_id: this.state.selectedPosition,
+        city: this.state.city,
+        category: this.state.category,
+        notes: this.state.notes
+      })
+    };
+    fetch(urlApi, opts)
+      .then(function(response) {
+        console.log("POST SUCCESS");
+        return response.json();
+      })
+      .then(data => {
+        //this.setState({ resultsValue: data.offer });
+        this.props.onDefineResults(data.offer);
+      });
+    event.preventDefault();
+  };
 
   componentDidMount() {
     this._fetchApi();
