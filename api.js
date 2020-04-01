@@ -8,27 +8,6 @@ const Sports = require("./models/sports");
 const Users = require("./models/users");
 const Offers = require("./models/offers")
 
-
-// GET filtrado
-/*app.get("/api/frutas/filter", (req, res) => {
-
-  Frutas.find(
-    { $and: [{ color: { $in: ["rojo", "verde"] } }, { "size.h": { $lte: 15 } }] },
-    { name: 1, qty: 1, _id: 0 },
-    (err, data) => {
-      if (!err) {
-        res.status(200).send({
-          success: 'true',
-          message: 'GET: Frutas',
-          frutas: data,
-        });
-      } else {
-        throw error;
-      }
-    })//.sort([["qty", 1]]) //ojo! array dentro de array
-  //.skip(2).limit(2);
-})*/
-
 // GET sports
 app.get("/api/sports", (req, res) => {
 
@@ -140,6 +119,53 @@ app.post("/api/users/login", (req, res) => {
   )
 });
 
+//PUT modifica un usuario
+app.put("/api/users/:id", (req, res) => {
+  console.log(req.body)
+  Users.findById(req.params.id, (err, data) => {
+    if (!err) {
+
+      data.password = req.body.password ? req.body.password : data.password;
+      data.name = req.body.name ? req.body.name : data.name;
+      data.surname = req.body.surname ? req.body.surname : data.surname;
+      data.sport = req.body.sport ? req.body.sport : data.sport;
+      data.position = req.body.position ? req.body.position : data.position;
+      data.phone = req.body.phone ? req.body.phone : data.phone;
+      data.dominantLeg = req.body.dominantLeg ? req.body.dominantLeg : data.dominantLeg;
+      data.age = req.body.age ? req.body.age : data.age;
+      data.experience = req.body.experience ? req.body.experience : data.experience;
+      data.city = req.body.city ? req.body.city : data.city;
+
+      data.save((err) => {
+        if (!err) {
+          res.status(201).send({
+            success: 'true',
+            message: 'PUT: User',
+            user: data
+          });
+        } else {
+          throw err;
+        }
+      });
+    }
+  });
+});
+
+// DELETE elimina un usuario
+app.delete("/api/users/:id", (req, res) => {
+  Users.findByIdAndDelete(req.params.id, (err, data) => {
+
+    if (err)
+      throw err;
+
+    res.status(200).send({
+      succes: true,
+      message: "DELETE: Usuario",
+      user: data
+    })
+  })
+});
+
 // GET offers
 app.get("/api/offers", (req, res) => {
 
@@ -235,45 +261,22 @@ app.post("/api/offers/search", (req, res) => {
   )
 });
 
-/* PUT modifica una fruta
-app.put("/api/frutas/:id", (req, res) => {
-  Frutas.findById(req.params.id, (err, data) => {
-    if (!err) {
 
-      data.name = req.body.name ? req.body.name : data.name;
-      data.qty = req.body.qty ? req.body.qty : data.qty;
-      data.color = req.body.color ? req.body.color : data.color;
-      data.size = req.body.size ? req.body.size : data.size;
 
-      data.save((err) => {
-        if (!err) {
-          res.status(201).send({
-            success: 'true',
-            message: 'PUT: Fruta',
-            fruta: data
-          });
-        } else {
-          throw err;
-        }
-      });
-    }
-  });
-});
-
-// DELETE elimina una fruta
-app.delete("/api/frutas/:id", (req, res) => {
-  Frutas.findByIdAndDelete(req.params.id, (err, data) => {
+// DELETE elimina una oferta
+app.delete("/api/offers/:id", (req, res) => {
+  Offers.findByIdAndDelete(req.params.id, (err, data) => {
 
     if (err)
       throw err;
 
     res.status(200).send({
       succes: true,
-      message: "DELETE: Fruta",
-      fruta: data
+      message: "DELETE: Oferta",
+      oferta: data
     })
   })
-});*/
+});
 
 
 const PORT = 5000;

@@ -9,6 +9,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+import { orange } from "@material-ui/core/colors";
 
 const useStyles = makeStyles(theme => ({
   menuButton: {
@@ -20,6 +23,19 @@ const useStyles = makeStyles(theme => ({
     textDecoration: "none"
   }
 }));
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      // Purple and green play nicely together.
+      main: orange[700]
+    },
+    secondary: {
+      // This is green.A700 as hex.
+      main: "#11cb5f"
+    }
+  }
+});
 
 export default function MenuAppBar() {
   const classes = useStyles();
@@ -62,65 +78,67 @@ export default function MenuAppBar() {
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <IconButton
-          edge="start"
-          className={classes.menuButton}
-          color="inherit"
-          aria-label="menu"
-          onClick={handleMenuList}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Menu
-          keepMounted
-          open={openMenuList}
-          onClose={handleCloseMenuList}
-          anchorEl={anchorElMenuList}
-        >
-          <MenuItem onClick={onClickSearch}>Buscar Ofertas</MenuItem>
-          <MenuItem onClick={onClickCandidacies}>Candidaturas</MenuItem>
-        </Menu>
-        <Typography
-          variant="h6"
-          className={classes.title}
-          component={Link}
-          to="/home"
-        >
-          FindMyTeam
-        </Typography>
-
-        <div>
+    <ThemeProvider theme={theme}>
+      <AppBar color="primary" position="static">
+        <Toolbar>
           <IconButton
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMenu}
+            edge="start"
+            className={classes.menuButton}
             color="inherit"
+            aria-label="menu"
+            onClick={handleMenuList}
           >
-            <AccountCircle />
+            <MenuIcon />
           </IconButton>
           <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right"
-            }}
             keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right"
-            }}
-            open={open}
-            onClose={handleClose}
+            open={openMenuList}
+            onClose={handleCloseMenuList}
+            anchorEl={anchorElMenuList}
           >
-            <MenuItem onClick={onClickPerfil}>Perfil</MenuItem>
-            <MenuItem onClick={logout}>Cerrar Sesión</MenuItem>
+            <MenuItem onClick={onClickSearch}>Buscar Ofertas</MenuItem>
+            <MenuItem onClick={onClickCandidacies}>Candidaturas</MenuItem>
           </Menu>
-        </div>
-      </Toolbar>
-    </AppBar>
+          <Typography
+            variant="h6"
+            className={classes.title}
+            component={Link}
+            to="/home"
+          >
+            FindMyTeam
+          </Typography>
+
+          <div>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right"
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right"
+              }}
+              open={open}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={onClickPerfil}>Perfil</MenuItem>
+              <MenuItem onClick={logout}>Cerrar Sesión</MenuItem>
+            </Menu>
+          </div>
+        </Toolbar>
+      </AppBar>
+    </ThemeProvider>
   );
 }

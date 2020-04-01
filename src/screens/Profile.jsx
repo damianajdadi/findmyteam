@@ -1,6 +1,5 @@
 import React from "react";
 import MenuAppBar from "../components/MenuAppBar";
-import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,6 +8,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TableFooter from "../components/TableFooter";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+import { orange } from "@material-ui/core/colors";
+import { red } from "@material-ui/core/colors";
+import Grid from "@material-ui/core/Grid";
+import SportsSelector from "../components/inputs/SportsSelector";
+import PositionsSelector from "../components/inputs/PositionsSelector";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -20,25 +26,38 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: orange[700]
+    },
+    secondary: {
+      main: red[500]
+    }
+  }
+});
+
 class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      password: "",
       name: "",
       surname: "",
-      email: "",
-      password: "",
       phone: "",
-      sport: "",
-      position: "",
+      selectedSport: "",
+      selectedPosition: "",
       dominantLeg: "",
       age: "",
-      height: "",
-      weight: "",
+      experience: "",
       city: "",
-      experience: ""
+      availableSports: [],
+      availablePositions: []
     };
   }
+
+  handleOnChangePassword = event =>
+    this.setState({ password: event.target.value });
 
   handleOnChangeName = event => this.setState({ name: event.target.value });
 
@@ -47,171 +66,200 @@ class Profile extends React.Component {
 
   handleOnChangePhone = event => this.setState({ phone: event.target.value });
 
-  handleOnChangeSport = event => this.setState({ sport: event.target.value });
-
-  handleOnChangePosition = event =>
-    this.setState({ position: event.target.value });
-
   handleOnChangeDominantLeg = event =>
     this.setState({ dominantLeg: event.target.value });
 
   handleOnChangeAge = event => this.setState({ age: event.target.value });
-
-  handleOnChangeHeight = event => this.setState({ height: event.target.value });
-
-  handleOnChangeWeight = event => this.setState({ weight: event.target.value });
 
   handleOnChangeCity = event => this.setState({ city: event.target.value });
 
   handleOnChangeExperience = event =>
     this.setState({ experience: event.target.value });
 
+  definePositions = id => {
+    let positionArr;
+    this.state.availableSports.map(function(sport) {
+      if (sport._id === id) {
+        positionArr = sport.positions;
+      }
+    });
+    this.setState({
+      availablePositions: positionArr
+    });
+  };
+
+  handleOnChangeSport = (event, data) => {
+    this.setState({ selectedSport: data.props.object });
+    this.definePositions(event.target.value);
+  };
+
+  handleOnChangePosition = (event, data) => {
+    this.setState({ selectedPosition: data.props.object });
+  };
+
+  _fetchApi = () => {
+    fetch("http://localhost:5000/api/sports")
+      .then(response => response.json())
+      .then(data =>
+        this.setState({
+          availableSports: data.sports
+        })
+      )
+      .catch(console.log);
+  };
+
+  handleSubmit = () => {
+    debugger;
+    const url =
+      "http://localhost:5000/api/users/" +
+      localStorage.getItem("user_id").replace(/"/g, "");
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        password: this.state.password,
+        name: this.state.name,
+        surname: this.state.surname,
+        phone: this.state.phone,
+        sport: this.state.selectedSport,
+        position: this.state.selectedPosition,
+        dominantLeg: this.state.dominantLeg,
+        age: this.state.age,
+        experience: this.state.experience,
+        city: this.state.city
+      })
+    };
+    fetch(url, requestOptions)
+      .then(response => {
+        response.json();
+      })
+      .catch(console.log);
+  };
+
+  componentDidMount() {
+    this._fetchApi();
+  }
+
   render() {
     return (
       <div>
-        <MenuAppBar />
-        <h1>Mi Perfil</h1>
-        <Avatar
-          alt="Damian Ajdadi"
-          src="/static/images/avatar/1.jpg"
-          className={useStyles.large}
-        />
-        <br />
-        <form noValidate autoComplete="off">
-          <TextField
-            value={this.state.name}
-            id="outlined-basic"
-            label="Nombre"
-            variant="outlined"
-            onChange={this.handleOnChangeName}
-          />
-          <br />
-          <TextField
-            id="outlined-basic"
-            label="Apellido"
-            variant="outlined"
-            onChange={this.handleOnChangeSurname}
-          />
-          <br />
-          <TextField
-            id="outlined-basic"
-            label="Email"
-            variant="outlined"
-            onChange={(event, newValue) => this.setState({ email: newValue })}
-          />
-          <br />
-          <TextField
-            type="password"
-            id="outlined-basic"
-            label="Contraseña"
-            variant="outlined"
-            onChange={(event, newValue) =>
-              this.setState({ password: newValue })
-            }
-          />
-          <br />
-          <TextField
-            value={this.state.phone}
-            id="outlined-basic"
-            label="Teléfono"
-            variant="outlined"
-            onChange={this.handleOnChangePhone}
-          />
-          <br />
-        </form>
-        <FormControl variant="outlined" className={useStyles.formControl}>
-          <InputLabel id="demo-simple-select-outlined-label">
-            Deporte
-          </InputLabel>
-          <Select
-            labelId="sport-label"
-            id="sport"
-            value={this.state.sport}
-            onChange={this.handleOnChangeSport}
+        <ThemeProvider theme={theme}>
+          <MenuAppBar />
+          <h1>Mi Perfil</h1>
+          <Grid
+            container
+            direction="column"
+            justify="space-evenly"
+            alignItems="center"
           >
-            <MenuItem value={"football"}>Fútbol</MenuItem>
-            <MenuItem value={"futsal"}>Fútbol Sala</MenuItem>
-            <MenuItem value={"handball"}>Balonmano</MenuItem>
-          </Select>
-        </FormControl>
-        <br />
-        <FormControl variant="outlined" className={useStyles.formControl}>
-          <InputLabel id="demo-simple-select-outlined-label">
-            Posición
-          </InputLabel>
-          <Select
-            labelId="position-label"
-            id="position"
-            value={this.state.position}
-            onChange={this.handleOnChangePosition}
-          >
-            <MenuItem value={"striker"}>Delantero</MenuItem>
-            <MenuItem value={"defender"}>Defensa</MenuItem>
-            <MenuItem value={"goalkeeper"}>Portero</MenuItem>
-          </Select>
-        </FormControl>
-        <br />
-        <FormControl variant="outlined" className={useStyles.formControl}>
-          <InputLabel id="demo-simple-select-outlined-label">
-            Pierna Dominante
-          </InputLabel>
-          <Select
-            labelId="dominantLeg-label"
-            id="dominantLeg"
-            value={this.state.dominantLeg}
-            onChange={this.handleOnChangeDominantLeg}
-          >
-            <MenuItem value={"right-handed"}>Diestro</MenuItem>
-            <MenuItem value={"left-handed"}>Zurdo</MenuItem>
-          </Select>
-        </FormControl>
-        <br />
-        <form noValidate autoComplete="off">
-          <TextField
-            value={this.state.age}
-            id="outlined-basic"
-            label="Edad"
-            variant="outlined"
-            onChange={this.handleOnChangeAge}
-          />
-          <br />
-          <TextField
-            value={this.state.height}
-            id="outlined-basic"
-            label="Altura"
-            variant="outlined"
-            onChange={this.handleOnChangeHeight}
-          />
-          <br />
-          <TextField
-            value={this.state.weight}
-            id="outlined-basic"
-            label="Peso"
-            variant="outlined"
-            onChange={this.handleOnChangeWeight}
-          />
-          <br />
-          <TextField
-            value={this.state.city}
-            id="outlined-basic"
-            label="Ciudad"
-            variant="outlined"
-            onChange={this.handleOnChangeCity}
-          />
-          <br />
-          <TextField
-            value={this.state.experience}
-            id="outlined-basic"
-            label="Experiencia"
-            variant="outlined"
-            onChange={this.handleOnChangeExperience}
-          />
-        </form>
-        <br />
-        <Button label="Submit" variant="contained" color="primary">
-          Editar Perfil
-        </Button>
-        <TableFooter />
+            <form noValidate autoComplete="off">
+              <TextField
+                value={this.state.name}
+                id="outlined-basic"
+                label="Nombre"
+                variant="outlined"
+                onChange={this.handleOnChangeName}
+              />
+              <br />
+              <TextField
+                id="outlined-basic"
+                label="Apellido"
+                variant="outlined"
+                onChange={this.handleOnChangeSurname}
+              />
+              <br />
+              <TextField
+                type="password"
+                id="outlined-basic"
+                label="Contraseña"
+                variant="outlined"
+                onChange={(event, newValue) =>
+                  this.setState({ password: newValue })
+                }
+              />
+              <br />
+              <TextField
+                value={this.state.phone}
+                id="outlined-basic"
+                label="Teléfono"
+                variant="outlined"
+                onChange={this.handleOnChangePhone}
+              />
+              <br />
+            </form>
+            <SportsSelector
+              value={this.state.selectedSport._id}
+              sports={this.state.availableSports}
+              handleOnChangeSport={this.handleOnChangeSport}
+            />
+            <br />
+            <PositionsSelector
+              value={this.state.selectedPosition._id}
+              positions={this.state.availablePositions}
+              handleOnChangePosition={this.handleOnChangePosition}
+            />
+            <br />
+            <FormControl variant="outlined" className={useStyles.formControl}>
+              <InputLabel id="demo-simple-select-outlined-label">
+                Pierna Dominante
+              </InputLabel>
+              <Select
+                labelId="dominantLeg-label"
+                id="dominantLeg"
+                value={this.state.dominantLeg}
+                onChange={this.handleOnChangeDominantLeg}
+              >
+                <MenuItem value={"right-handed"}>Diestro</MenuItem>
+                <MenuItem value={"left-handed"}>Zurdo</MenuItem>
+              </Select>
+            </FormControl>
+            <br />
+            <form noValidate autoComplete="off">
+              <TextField
+                value={this.state.age}
+                id="outlined-basic"
+                label="Edad"
+                variant="outlined"
+                onChange={this.handleOnChangeAge}
+              />
+              <br />
+              <TextField
+                value={this.state.city}
+                id="outlined-basic"
+                label="Ciudad"
+                variant="outlined"
+                onChange={this.handleOnChangeCity}
+              />
+              <br />
+              <TextField
+                value={this.state.experience}
+                id="outlined-basic"
+                label="Experiencia"
+                variant="outlined"
+                onChange={this.handleOnChangeExperience}
+              />
+            </form>
+            <br />
+            <Button
+              label="Submit"
+              onClick={this.handleSubmit}
+              variant="contained"
+              color="Primary"
+            >
+              EDITAR PERFIL
+            </Button>
+            <br />
+            <Button
+              label="Submit"
+              onClick={this.handleSubmit}
+              variant="contained"
+              color="secondary"
+            >
+              Eliminar Perfil
+            </Button>
+          </Grid>
+          <TableFooter />
+        </ThemeProvider>
       </div>
     );
   }
