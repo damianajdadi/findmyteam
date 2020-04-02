@@ -85,7 +85,7 @@ class SignUp extends React.Component {
               onChange={this.handleOnChangeType}
             >
               <MenuItem value={"player"}>Jugador</MenuItem>
-              <MenuItem value={"club"}>Club</MenuItem>
+              <MenuItem value={"team"}>Club</MenuItem>
             </Select>
           </FormControl>
           <br />

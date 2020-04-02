@@ -77,6 +77,48 @@ export default function MenuAppBar() {
     window.location.href = "/";
   };
 
+  const userPlayer = () => {
+    return JSON.parse(localStorage.getItem("user")).type === "player";
+  };
+
+  const userTeam = () => {
+    return JSON.parse(localStorage.getItem("user")).type === "team";
+  };
+
+  const playerView = () => {
+    if (userPlayer()) {
+      return (
+        <Menu
+          keepMounted
+          open={openMenuList}
+          onClose={handleCloseMenuList}
+          anchorEl={anchorElMenuList}
+        >
+          <MenuItem onClick={onClickSearch}>Buscar Ofertas</MenuItem>
+          <MenuItem onClick={onClickCandidacies}>Candidaturas</MenuItem>
+        </Menu>
+      );
+    }
+    return null;
+  };
+
+  const teamView = () => {
+    if (userTeam()) {
+      return (
+        <Menu
+          keepMounted
+          open={openMenuList}
+          onClose={handleCloseMenuList}
+          anchorEl={anchorElMenuList}
+        >
+          <MenuItem onClick={onClickSearch}>Crear Oferta</MenuItem>
+          <MenuItem onClick={onClickCandidacies}>Mis Ofertas</MenuItem>
+        </Menu>
+      );
+    }
+    return null;
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <AppBar color="primary" position="static">
@@ -90,15 +132,8 @@ export default function MenuAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Menu
-            keepMounted
-            open={openMenuList}
-            onClose={handleCloseMenuList}
-            anchorEl={anchorElMenuList}
-          >
-            <MenuItem onClick={onClickSearch}>Buscar Ofertas</MenuItem>
-            <MenuItem onClick={onClickCandidacies}>Candidaturas</MenuItem>
-          </Menu>
+          {playerView()}
+          {teamView()}
           <Typography
             variant="h6"
             className={classes.title}

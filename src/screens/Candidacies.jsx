@@ -15,6 +15,9 @@ const styles = {
 
 class Candidacies extends React.Component {
   render() {
+    if (localStorage.getItem("user_id") === null) {
+      window.location.href = "/";
+    }
     return (
       <div style={styles.root}>
         <MenuAppBar />

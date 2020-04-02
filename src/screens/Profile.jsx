@@ -157,6 +157,10 @@ class Profile extends React.Component {
   }
 
   render() {
+    if (localStorage.getItem("user_id") === null) {
+      window.location.href = "/";
+      alert("Acceso denegado. Para poder acceder necesitas identificarte");
+    }
     return (
       <div>
         <ThemeProvider theme={theme}>
