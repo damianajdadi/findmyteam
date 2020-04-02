@@ -108,8 +108,7 @@ class Profile extends React.Component {
       .catch(console.log);
   };
 
-  handleSubmit = () => {
-    debugger;
+  handleOnSubmit = () => {
     const url =
       "http://localhost:5000/api/users/" +
       localStorage.getItem("user_id").replace(/"/g, "");
@@ -131,6 +130,23 @@ class Profile extends React.Component {
     };
     fetch(url, requestOptions)
       .then(response => {
+        response.json();
+      })
+      .catch(console.log);
+  };
+
+  handleOnDelete = () => {
+    const url =
+      "http://localhost:5000/api/users/" +
+      localStorage.getItem("user_id").replace(/"/g, "");
+    const requestOptions = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    };
+    fetch(url, requestOptions)
+      .then(response => {
+        localStorage.clear();
+        window.location.href = "/";
         response.json();
       })
       .catch(console.log);
@@ -242,7 +258,7 @@ class Profile extends React.Component {
             <br />
             <Button
               label="Submit"
-              onClick={this.handleSubmit}
+              onClick={this.handleOnSubmit}
               variant="contained"
               color="Primary"
             >
@@ -251,7 +267,7 @@ class Profile extends React.Component {
             <br />
             <Button
               label="Submit"
-              onClick={this.handleSubmit}
+              onClick={this.handleOnDelete}
               variant="contained"
               color="secondary"
             >

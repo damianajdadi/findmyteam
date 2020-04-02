@@ -121,7 +121,6 @@ app.post("/api/users/login", (req, res) => {
 
 //PUT modifica un usuario
 app.put("/api/users/:id", (req, res) => {
-  console.log(req.body)
   Users.findById(req.params.id, (err, data) => {
     if (!err) {
 
