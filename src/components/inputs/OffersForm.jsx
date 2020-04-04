@@ -78,6 +78,7 @@ class OffersForm extends React.Component {
     };
     fetch("http://localhost:5000/api/offers", requestOptions).then(response => {
       response.json();
+      window.location.href = "/offers";
     });
   };
 
@@ -143,21 +144,6 @@ class OffersForm extends React.Component {
       );
     }
     return null;
-  };
-
-  handleOnDelete = () => {
-    const url = "http://localhost:5000/api/offers/:id";
-    const requestOptions = {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" }
-    };
-    fetch(url, requestOptions)
-      .then(response => {
-        localStorage.clear();
-        window.location.href = "/";
-        response.json();
-      })
-      .catch(console.log);
   };
 
   render() {

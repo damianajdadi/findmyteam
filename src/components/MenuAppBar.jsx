@@ -72,6 +72,10 @@ export default function MenuAppBar() {
     window.location.href = "/candidacies";
   };
 
+  const onClickNewOffer = () => {
+    window.location.href = "/offers/new";
+  };
+
   const logout = () => {
     localStorage.clear();
     window.location.href = "/";
@@ -111,7 +115,7 @@ export default function MenuAppBar() {
           onClose={handleCloseMenuList}
           anchorEl={anchorElMenuList}
         >
-          <MenuItem onClick={onClickSearch}>Crear Oferta</MenuItem>
+          <MenuItem onClick={onClickNewOffer}>Crear Oferta</MenuItem>
           <MenuItem onClick={onClickCandidacies}>Mis Ofertas</MenuItem>
         </Menu>
       );

@@ -181,24 +181,6 @@ app.get("/api/offers", (req, res) => {
   });
 });
 
-// GET offers by user
-app.get("/api/offers", (req, res) => {
-  Offers.find(
-    {
-      "team._id": req.params.user_id
-    },
-    (err, data) => {
-      if (!err) {
-        res.status(200).send({
-          success: 'true',
-          message: 'GET: OFFERS',
-          offers: data,
-        });
-      } else {
-        throw error;
-      }
-    });
-});
 
 // GET ONE offer
 app.get("/api/offers/:id", (req, res) => {

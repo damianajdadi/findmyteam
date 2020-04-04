@@ -1,19 +1,52 @@
 import React from "react";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
+import ListItemText from "@material-ui/core/ListItemText";
+import MenuAppBar from "../components/MenuAppBar";
+import TableFooter from "../components/TableFooter";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 class MyOffers extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      offers: []
+    };
+  }
+
   _fetchApi = () => {
-    fetch(
-      "http://localhost:5000/api/offers?user_id=" +
-        localStorage.getItem("user_id").replace(/"/g, "")
-    )
+    let offerArray = [];
+    fetch("http://localhost:5000/api/offers")
       .then(response => response.json())
+      .then(data => {
+        debugger;
+        data.offers.map(offer => {
+          if (
+            offer.team._id === localStorage.getItem("user_id").replace(/"/g, "")
+          ) {
+            offerArray.push(offer);
+          }
+          this.setState({
+            offers: offerArray
+          });
+        });
+      })
       .catch(console.log);
   };
-
-  handleCreateOffer = () => {
-    fetch("http://localhost:5000/api/offers", requestOptions).then(response => {
-      response.json();
-    });
+  handleOnDeleteOffer = e => {
+    const url = "http://localhost:5000/api/offers/" + e.currentTarget.id;
+    const requestOptions = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    };
+    fetch(url, requestOptions)
+      .then(response => {
+        response.json();
+        window.location.reload(false);
+      })
+      .catch(console.log);
   };
 
   componentDidMount() {
@@ -25,25 +58,36 @@ class MyOffers extends React.Component {
       alert("Acceso denegado. Para poder acceder necesitas identificarte");
     }
     return (
-      <List>
-        {results.map(result => (
-          <div>
-            <ListItem alignItems="flex-start">
-              <ListItemText
-                primary={
-                  "Equipo de " +
-                  result.sport.name +
-                  " en " +
-                  result.city +
-                  " busca " +
-                  result.position.name
-                }
-              />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-          </div>
-        ))}
-      </List>
+      <div>
+        <MenuAppBar />
+        <List>
+          {this.state.offers.map(result => (
+            <div>
+              <ListItem alignItems="flex-start">
+                <ListItemText
+                  primary={
+                    "Equipo de " +
+                    result.sport.name +
+                    " en " +
+                    result.city +
+                    " busca " +
+                    result.position.name
+                  }
+                />
+                <IconButton
+                  id={result._id}
+                  aria-label="delete"
+                  onClick={this.handleOnDeleteOffer}
+                >
+                  <DeleteIcon fontSize="large" />
+                </IconButton>
+              </ListItem>
+              <Divider variant="inset" component="li" />
+            </div>
+          ))}
+        </List>
+        <TableFooter />
+      </div>
     );
   }
 }

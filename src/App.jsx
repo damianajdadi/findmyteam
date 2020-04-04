@@ -9,6 +9,7 @@ import Search from "./screens/Search";
 import Candidacies from "./screens/Candidacies";
 import NotFound from "./screens/NotFound";
 import NewOffer from "./screens/NewOffer";
+import MyOffers from "./screens/MyOffers";
 
 class App extends React.Component {
   render() {
@@ -22,6 +23,7 @@ class App extends React.Component {
           <Route path="/offers/search" exact component={Search} />
           <Route path="/candidacies" exact component={Candidacies} />
           <Route path="/offers/new" exact component={NewOffer} />
+          <Route path="/offers" exact component={MyOffers} />
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>
