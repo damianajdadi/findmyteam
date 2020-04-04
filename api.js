@@ -295,9 +295,6 @@ app.get("/api/applies", (req, res) => {
 
 // POST ONE APPLY
 app.post("/api/applies", (req, res) => {
-  /*Users.findById(req.body.player_id, (err, data) => {
-    let user = data;*/
-  console.log(req.body);
   const apply = new Applies({
     player: req.body.user,
     offer: req.body.offer,
@@ -314,7 +311,6 @@ app.post("/api/applies", (req, res) => {
     }
   });
 });
-//});
 
 // DELETE elimina una APPLY
 app.delete("/api/applies/:id", (req, res) => {

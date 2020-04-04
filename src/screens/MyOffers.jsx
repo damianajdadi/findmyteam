@@ -34,6 +34,7 @@ class MyOffers extends React.Component {
       })
       .catch(console.log);
   };
+
   handleOnDeleteOffer = e => {
     const url = "http://localhost:5000/api/offers/" + e.currentTarget.id;
     const requestOptions = {

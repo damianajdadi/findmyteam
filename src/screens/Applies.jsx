@@ -3,6 +3,10 @@ import MenuAppBar from "../components/MenuAppBar";
 import TableFooter from "../components/TableFooter";
 import ClearSharpIcon from "@material-ui/icons/ClearSharp";
 import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
+import ListItemText from "@material-ui/core/ListItemText";
 
 const styles = {
   root: {
@@ -15,21 +19,82 @@ const styles = {
   }
 };
 
-class Candidacies extends React.Component {
+class Applies extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      applies: []
+    };
+  }
+
+  _fetchApi = () => {
+    let applyArray = [];
+    fetch("http://localhost:5000/api/applies")
+      .then(response => response.json())
+      .then(data => {
+        debugger;
+        data.applies.map(apply => {
+          if (
+            apply.player._id === JSON.parse(localStorage.getItem("user"))._id
+          ) {
+            applyArray.push(apply);
+          }
+          this.setState({
+            applies: applyArray
+          });
+        });
+      })
+      .catch(console.log);
+    console.log(this.state.applies);
+  };
+
+  handleOnDeleteApply = (event, data) => {
+    const url = "http://localhost:5000/api/applies/" + data._id;
+    const requestOptions = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    };
+    fetch(url, requestOptions)
+      .then(response => {
+        response.json();
+        window.location.reload(false);
+      })
+      .catch(console.log);
+  };
+
+  componentDidMount() {
+    this._fetchApi();
+  }
+
   render() {
     if (localStorage.getItem("user_id") === null) {
       window.location.href = "/";
     }
     return (
-      <div style={styles.root}>
+      <div>
         <MenuAppBar />
-        <div style={styles.main}>
-          <h2>Candidaturas</h2>
-        </div>
+        <h2>Candidaturas</h2>
+        <List>
+          {this.state.applies.map(result => (
+            <div>
+              <ListItem alignItems="flex-start">
+                <ListItemText primary={"Equipo de "} />
+                <IconButton
+                  id={result._id}
+                  aria-label="delete"
+                  onClick={event => this.handleOnDeleteApply(event, result)}
+                >
+                  <ClearSharpIcon fontSize="large" />
+                </IconButton>
+              </ListItem>
+              <Divider variant="inset" component="li" />
+            </div>
+          ))}
+        </List>
         <TableFooter />
       </div>
     );
   }
 }
 
-export default Candidacies;
+export default Applies;
