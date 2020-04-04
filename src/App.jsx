@@ -6,7 +6,7 @@ import Home from "./screens/Home";
 import SignUp from "./screens/SignUp";
 import Profile from "./screens/Profile";
 import Search from "./screens/Search";
-import Candidacies from "./screens/Candidacies";
+import Applies from "./screens/Applies";
 import NotFound from "./screens/NotFound";
 import NewOffer from "./screens/NewOffer";
 import MyOffers from "./screens/MyOffers";
@@ -21,7 +21,7 @@ class App extends React.Component {
           <Route path="/signup" exact component={SignUp} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/offers/search" exact component={Search} />
-          <Route path="/candidacies" exact component={Candidacies} />
+          <Route path="/applies" exact component={Applies} />
           <Route path="/offers/new" exact component={NewOffer} />
           <Route path="/offers" exact component={MyOffers} />
           <Route path="*" component={NotFound} />

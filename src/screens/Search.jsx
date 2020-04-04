@@ -6,6 +6,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
 import ListItemText from "@material-ui/core/ListItemText";
+import CheckSharpIcon from "@material-ui/icons/CheckSharp";
+import IconButton from "@material-ui/core/IconButton";
 
 const styles = {
   root: {
@@ -30,6 +32,22 @@ class Search extends React.Component {
     this.setState({ results: resultsValue });
   };
 
+  handleOnClick = (event, data) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        offer: data,
+        user: JSON.parse(localStorage.getItem("user"))
+      })
+    };
+    fetch("http://localhost:5000/api/applies", requestOptions).then(
+      response => {
+        response.json();
+      }
+    );
+  };
+
   renderResults = () => {
     let results = this.state.results ? this.state.results : [];
     return (
@@ -47,6 +65,12 @@ class Search extends React.Component {
                   result.position.name
                 }
               />
+              <IconButton
+                aria-label="delete"
+                onClick={event => this.handleOnClick(event, result)}
+              >
+                <CheckSharpIcon></CheckSharpIcon>
+              </IconButton>
             </ListItem>
             <Divider variant="inset" component="li" />
           </div>

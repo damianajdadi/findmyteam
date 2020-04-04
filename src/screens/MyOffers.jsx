@@ -21,7 +21,6 @@ class MyOffers extends React.Component {
     fetch("http://localhost:5000/api/offers")
       .then(response => response.json())
       .then(data => {
-        debugger;
         data.offers.map(offer => {
           if (
             offer.team._id === localStorage.getItem("user_id").replace(/"/g, "")

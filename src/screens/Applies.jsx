@@ -1,6 +1,8 @@
 import React from "react";
 import MenuAppBar from "../components/MenuAppBar";
 import TableFooter from "../components/TableFooter";
+import ClearSharpIcon from "@material-ui/icons/ClearSharp";
+import IconButton from "@material-ui/core/IconButton";
 
 const styles = {
   root: {

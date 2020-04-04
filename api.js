@@ -6,7 +6,8 @@ mongoDbInit();
 
 const Sports = require("./models/sports");
 const Users = require("./models/users");
-const Offers = require("./models/offers")
+const Offers = require("./models/offers");
+const Applies = require("./models/applies");
 
 // GET sports
 app.get("/api/sports", (req, res) => {
@@ -276,6 +277,59 @@ app.delete("/api/offers/:id", (req, res) => {
   })
 });
 
+// GET applies
+app.get("/api/applies", (req, res) => {
+
+  Applies.find((err, data) => {
+    if (!err) {
+      res.status(200).send({
+        success: 'true',
+        message: 'GET: OFFERS',
+        applies: data,
+      });
+    } else {
+      throw error;
+    }
+  });
+});
+
+// POST ONE APPLY
+app.post("/api/applies", (req, res) => {
+  /*Users.findById(req.body.player_id, (err, data) => {
+    let user = data;*/
+  console.log(req.body);
+  const apply = new Applies({
+    player: req.body.user,
+    offer: req.body.offer,
+  });
+  apply.save((err) => {
+    if (!err) {
+      res.status(201).send({
+        success: 'true',
+        message: 'POST ONE: APPLY',
+        apply
+      });
+    } else {
+      throw error;
+    }
+  });
+});
+//});
+
+// DELETE elimina una APPLY
+app.delete("/api/applies/:id", (req, res) => {
+  Applies.findByIdAndDelete(req.params.id, (err, data) => {
+
+    if (err)
+      throw err;
+
+    res.status(200).send({
+      succes: true,
+      message: "DELETE: Apply",
+      apply: data
+    })
+  })
+});
 
 const PORT = 5000;
 app.listen(PORT, function () {
