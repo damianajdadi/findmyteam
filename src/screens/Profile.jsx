@@ -161,7 +161,6 @@ class Profile extends React.Component {
   };
 
   playerView = () => {
-    debugger;
     if (this.userPlayer()) {
       return (
         <div>

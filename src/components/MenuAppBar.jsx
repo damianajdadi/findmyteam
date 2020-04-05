@@ -69,7 +69,7 @@ export default function MenuAppBar() {
   };
 
   const onClickApplies = () => {
-    window.location.href = "/applies";
+    window.location.href = "/home";
   };
 
   const onClickNewOffer = () => {
@@ -77,7 +77,7 @@ export default function MenuAppBar() {
   };
 
   const onClickMyOffers = () => {
-    window.location.href = "/offers";
+    window.location.href = "/home";
   };
 
   const logout = () => {

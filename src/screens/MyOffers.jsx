@@ -70,39 +70,35 @@ class MyOffers extends React.Component {
       return null;
     }
     return (
-      <div style={styles.root}>
-        <MenuAppBar />
-        <div style={styles.main}>
-          <List>
-            {this.state.offers.map(result => (
-              <div>
-                <ListItem alignItems="flex-start">
-                  <ListItemText
-                    primary={
-                      result.team.name +
-                      "\n" +
-                      result.position.name +
-                      " de " +
-                      result.sport.name +
-                      " en " +
-                      result.city
-                    }
-                    secondary={result.notes}
-                  />
-                  <IconButton
-                    id={result._id}
-                    aria-label="delete"
-                    onClick={this.handleOnDeleteOffer}
-                  >
-                    <DeleteIcon fontSize="large" />
-                  </IconButton>
-                </ListItem>
-                <Divider variant="inset" component="li" />
-              </div>
-            ))}
-          </List>
-        </div>
-        <TableFooter />
+      <div style={styles.main}>
+        <List>
+          {this.state.offers.map(result => (
+            <div>
+              <ListItem alignItems="flex-start">
+                <ListItemText
+                  primary={
+                    result.team.name +
+                    "\n" +
+                    result.position.name +
+                    " de " +
+                    result.sport.name +
+                    " en " +
+                    result.city
+                  }
+                  secondary={result.notes}
+                />
+                <IconButton
+                  id={result._id}
+                  aria-label="delete"
+                  onClick={this.handleOnDeleteOffer}
+                >
+                  <DeleteIcon fontSize="large" />
+                </IconButton>
+              </ListItem>
+              <Divider variant="inset" component="li" />
+            </div>
+          ))}
+        </List>
       </div>
     );
   }

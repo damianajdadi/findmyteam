@@ -41,7 +41,7 @@ class Login extends React.Component {
         if (response.success === "true") {
           localStorage.setItem("user_id", JSON.stringify(response.user[0]._id));
           localStorage.setItem("user", JSON.stringify(response.user[0]));
-          window.location.href = "http://localhost:3000/home";
+          window.location.href = "/profile";
         } else {
           alert("Usuario no encontrado");
         }

@@ -1,6 +1,4 @@
 import React from "react";
-import MenuAppBar from "../components/MenuAppBar";
-import TableFooter from "../components/TableFooter";
 import ClearSharpIcon from "@material-ui/icons/ClearSharp";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
@@ -71,40 +69,36 @@ class Applies extends React.Component {
       window.location.href = "/";
     }
     return (
-      <div style={styles.root}>
-        <MenuAppBar />
-        <div style={styles.main}>
-          <h2>Candidaturas</h2>
-          <List>
-            {this.state.applies.map(result => (
-              <div>
-                <ListItem alignItems="flex-start">
-                  <ListItemText
-                    primary={
-                      result.offer.team.name +
-                      "\n" +
-                      result.offer.position.name +
-                      " de " +
-                      result.offer.sport.name +
-                      " en " +
-                      result.offer.city
-                    }
-                    secondary={result.offer.notes}
-                  />
-                  <IconButton
-                    id={result._id}
-                    aria-label="delete"
-                    onClick={event => this.handleOnDeleteApply(event, result)}
-                  >
-                    <ClearSharpIcon fontSize="large" />
-                  </IconButton>
-                </ListItem>
-                <Divider variant="inset" component="li" />
-              </div>
-            ))}
-          </List>
-        </div>
-        <TableFooter />
+      <div style={styles.main}>
+        <h2>Candidaturas</h2>
+        <List>
+          {this.state.applies.map(result => (
+            <div>
+              <ListItem alignItems="flex-start">
+                <ListItemText
+                  primary={
+                    result.offer.team.name +
+                    "\n" +
+                    result.offer.position.name +
+                    " de " +
+                    result.offer.sport.name +
+                    " en " +
+                    result.offer.city
+                  }
+                  secondary={result.offer.notes}
+                />
+                <IconButton
+                  id={result._id}
+                  aria-label="delete"
+                  onClick={event => this.handleOnDeleteApply(event, result)}
+                >
+                  <ClearSharpIcon fontSize="large" />
+                </IconButton>
+              </ListItem>
+              <Divider variant="inset" component="li" />
+            </div>
+          ))}
+        </List>
       </div>
     );
   }

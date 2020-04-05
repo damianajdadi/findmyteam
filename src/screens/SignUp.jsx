@@ -8,8 +8,6 @@ import Select from "@material-ui/core/Select";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
-//INCOMPLETOOOOOOO NO MANDAAAAR NOOOOOO
-
 const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(1),
@@ -67,7 +65,7 @@ class SignUp extends React.Component {
           justify="space-evenly"
           alignItems="center"
         >
-          <h1>REGISTRO INCOMPLETO</h1>
+          <h1>REGISTRO</h1>
           <TextField
             value={this.state.email}
             id="outlined-basic"
