@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 class Login extends React.Component {
   constructor(props) {
@@ -50,8 +52,13 @@ class Login extends React.Component {
   render() {
     return (
       <div>
-        <h1>FindMyTeam</h1>
-        <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+        <Grid
+          container
+          direction="column"
+          justify="space-evenly"
+          alignItems="center"
+        >
+          <h1>FindMyTeam</h1>
           <TextField
             value={this.state.email}
             id="outlined-basic"
@@ -69,19 +76,20 @@ class Login extends React.Component {
             onChange={this.handleOnChangePassword}
           />
           <br />
-          <input
-            type="submit"
-            value="Submit"
+          <Button
+            label="Submit"
+            onClick={this.handleSubmit}
+            variant="contained"
+            color="primary"
             disabled={!this.validationRules()}
-          />
-        </form>
-        <br />
-        <Link to="/signup">¿Aún no eres miembro? ¡Regístrate ya!</Link>
+          >
+            Acceder
+          </Button>
+          <br />
+          <Link to="/signup">¿Aún no eres miembro? ¡Regístrate ya!</Link>
+        </Grid>
       </div>
     );
   }
 }
-const style = {
-  margin: 15
-};
 export default Login;

@@ -57,13 +57,15 @@ class Search extends React.Component {
             <ListItem alignItems="flex-start">
               <ListItemText
                 primary={
-                  "Equipo de " +
+                  result.team.name +
+                  "\n" +
+                  result.position.name +
+                  " de " +
                   result.sport.name +
                   " en " +
-                  result.city +
-                  " busca " +
-                  result.position.name
+                  result.city
                 }
+                secondary={result.notes}
               />
               <IconButton
                 aria-label="delete"

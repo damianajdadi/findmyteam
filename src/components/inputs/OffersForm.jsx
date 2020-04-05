@@ -2,6 +2,7 @@ import React from "react";
 import SportsSelector from "./SportsSelector";
 import PositionsSelector from "./PositionsSelector";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 class OffersForm extends React.Component {
   constructor(props) {
@@ -149,20 +150,25 @@ class OffersForm extends React.Component {
   render() {
     return (
       <div>
-        <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
-          {this.renderSelectors()}
-          <TextField
-            value={this.state.city}
-            id="outlined-basic"
-            label="Ciudad"
-            variant="outlined"
-            onChange={this.handleOnChangeCity}
-          />
-          <br />
-          {this.renderNotes()}
-          <br />
-          <input type="submit"></input>
-        </form>
+        {this.renderSelectors()}
+        <TextField
+          value={this.state.city}
+          id="outlined-basic"
+          label="Ciudad"
+          variant="outlined"
+          onChange={this.handleOnChangeCity}
+        />
+        <br />
+        {this.renderNotes()}
+        <br />
+        <Button
+          label="Submit"
+          onClick={this.handleSearchOffer}
+          variant="contained"
+          color="primary"
+        >
+          Buscar
+        </Button>
       </div>
     );
   }

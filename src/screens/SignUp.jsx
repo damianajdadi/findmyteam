@@ -1,11 +1,12 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 //INCOMPLETOOOOOOO NO MANDAAAAR NOOOOOO
 
@@ -16,6 +17,10 @@ const useStyles = makeStyles(theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing(2)
+  },
+  typeSelector: {
+    paddingRight: "14px",
+    width: "167px"
   }
 }));
 
@@ -47,16 +52,22 @@ class SignUp extends React.Component {
       })
     };
     fetch("http://localhost:5000/api/users", requestOptions).then(response => {
+      alert("Usuario creado");
+      window.location.href = "/";
       response.json();
     });
-    return <Redirect to="http://localhost:3000/" />;
   };
 
   render() {
     return (
       <div>
-        <h1>REGISTRO INCOMPLETO</h1>
-        <form noValidate autoComplete="off" onSubmit={this.handleOnSubmit}>
+        <Grid
+          container
+          direction="column"
+          justify="space-evenly"
+          alignItems="center"
+        >
+          <h1>REGISTRO INCOMPLETO</h1>
           <TextField
             value={this.state.email}
             id="outlined-basic"
@@ -79,6 +90,7 @@ class SignUp extends React.Component {
               Perfil
             </InputLabel>
             <Select
+              className="typeSelector"
               labelId="type"
               id="type"
               value={this.state.type}
@@ -89,8 +101,15 @@ class SignUp extends React.Component {
             </Select>
           </FormControl>
           <br />
-          <input type="submit" value="Submit" />
-        </form>
+          <Button
+            label="Submit"
+            onClick={this.handleOnSubmit}
+            variant="contained"
+            color="secondary"
+          >
+            Registrarse
+          </Button>
+        </Grid>
       </div>
     );
   }

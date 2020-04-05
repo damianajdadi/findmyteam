@@ -71,26 +71,39 @@ class Applies extends React.Component {
       window.location.href = "/";
     }
     return (
-      <div>
+      <div style={styles.root}>
         <MenuAppBar />
-        <h2>Candidaturas</h2>
-        <List>
-          {this.state.applies.map(result => (
-            <div>
-              <ListItem alignItems="flex-start">
-                <ListItemText primary={"Equipo de "} />
-                <IconButton
-                  id={result._id}
-                  aria-label="delete"
-                  onClick={event => this.handleOnDeleteApply(event, result)}
-                >
-                  <ClearSharpIcon fontSize="large" />
-                </IconButton>
-              </ListItem>
-              <Divider variant="inset" component="li" />
-            </div>
-          ))}
-        </List>
+        <div style={styles.main}>
+          <h2>Candidaturas</h2>
+          <List>
+            {this.state.applies.map(result => (
+              <div>
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    primary={
+                      result.offer.team.name +
+                      "\n" +
+                      result.offer.position.name +
+                      " de " +
+                      result.offer.sport.name +
+                      " en " +
+                      result.offer.city
+                    }
+                    secondary={result.offer.notes}
+                  />
+                  <IconButton
+                    id={result._id}
+                    aria-label="delete"
+                    onClick={event => this.handleOnDeleteApply(event, result)}
+                  >
+                    <ClearSharpIcon fontSize="large" />
+                  </IconButton>
+                </ListItem>
+                <Divider variant="inset" component="li" />
+              </div>
+            ))}
+          </List>
+        </div>
         <TableFooter />
       </div>
     );

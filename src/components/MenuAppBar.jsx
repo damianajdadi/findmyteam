@@ -68,12 +68,16 @@ export default function MenuAppBar() {
     window.location.href = "/offers/search";
   };
 
-  const onClickCandidacies = () => {
-    window.location.href = "/candidacies";
+  const onClickApplies = () => {
+    window.location.href = "/applies";
   };
 
   const onClickNewOffer = () => {
     window.location.href = "/offers/new";
+  };
+
+  const onClickMyOffers = () => {
+    window.location.href = "/offers";
   };
 
   const logout = () => {
@@ -99,7 +103,7 @@ export default function MenuAppBar() {
           anchorEl={anchorElMenuList}
         >
           <MenuItem onClick={onClickSearch}>Buscar Ofertas</MenuItem>
-          <MenuItem onClick={onClickCandidacies}>Candidaturas</MenuItem>
+          <MenuItem onClick={onClickApplies}>Candidaturas</MenuItem>
         </Menu>
       );
     }
@@ -116,7 +120,7 @@ export default function MenuAppBar() {
           anchorEl={anchorElMenuList}
         >
           <MenuItem onClick={onClickNewOffer}>Crear Oferta</MenuItem>
-          <MenuItem onClick={onClickCandidacies}>Mis Ofertas</MenuItem>
+          <MenuItem onClick={onClickMyOffers}>Mis Ofertas</MenuItem>
         </Menu>
       );
     }

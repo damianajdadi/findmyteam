@@ -18,8 +18,7 @@ import PositionsSelector from "../components/inputs/PositionsSelector";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
-    margin: theme.spacing(1),
-    width: 120
+    margin: theme.spacing(1)
   },
   selectEmpty: {
     marginTop: theme.spacing(2)
@@ -146,6 +145,7 @@ class Profile extends React.Component {
     fetch(url, requestOptions)
       .then(response => {
         localStorage.clear();
+        alert("Usuario eliminado");
         window.location.href = "/";
         response.json();
       })
@@ -174,15 +174,17 @@ class Profile extends React.Component {
           >
             <form noValidate autoComplete="off">
               <TextField
+                required
                 value={this.state.name}
-                id="outlined-basic"
-                label="Nombre"
+                id="outlined-required"
+                label={"Nombre"}
                 variant="outlined"
                 onChange={this.handleOnChangeName}
               />
               <br />
               <TextField
-                id="outlined-basic"
+                required
+                id="outlined-required"
                 label="Apellido"
                 variant="outlined"
                 onChange={this.handleOnChangeSurname}
@@ -199,8 +201,9 @@ class Profile extends React.Component {
               />
               <br />
               <TextField
+                required
                 value={this.state.phone}
-                id="outlined-basic"
+                id="outlined-required"
                 label="Teléfono"
                 variant="outlined"
                 onChange={this.handleOnChangePhone}
@@ -219,7 +222,11 @@ class Profile extends React.Component {
               handleOnChangePosition={this.handleOnChangePosition}
             />
             <br />
-            <FormControl variant="outlined" className={useStyles.formControl}>
+            <FormControl
+              required
+              variant="outlined"
+              className={useStyles.formControl}
+            >
               <InputLabel id="demo-simple-select-outlined-label">
                 Pierna Dominante
               </InputLabel>
@@ -244,8 +251,9 @@ class Profile extends React.Component {
               />
               <br />
               <TextField
+                required
                 value={this.state.city}
-                id="outlined-basic"
+                id="outlined-required"
                 label="Ciudad"
                 variant="outlined"
                 onChange={this.handleOnChangeCity}
@@ -253,8 +261,11 @@ class Profile extends React.Component {
               <br />
               <TextField
                 value={this.state.experience}
-                id="outlined-basic"
+                id="outlined-multiline-static"
                 label="Experiencia"
+                multiline
+                rows="4"
+                defaultValue="Default Value"
                 variant="outlined"
                 onChange={this.handleOnChangeExperience}
               />

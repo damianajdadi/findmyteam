@@ -8,6 +8,17 @@ import TableFooter from "../components/TableFooter";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 
+const styles = {
+  root: {
+    display: "flex",
+    flexFlow: "column nowrap",
+    height: "100%"
+  },
+  main: {
+    flex: 1
+  }
+};
+
 class MyOffers extends React.Component {
   constructor(props) {
     super(props);
@@ -58,34 +69,38 @@ class MyOffers extends React.Component {
       alert("Acceso denegado. Para poder acceder necesitas identificarte");
     }
     return (
-      <div>
+      <div style={styles.root}>
         <MenuAppBar />
-        <List>
-          {this.state.offers.map(result => (
-            <div>
-              <ListItem alignItems="flex-start">
-                <ListItemText
-                  primary={
-                    "Equipo de " +
-                    result.sport.name +
-                    " en " +
-                    result.city +
-                    " busca " +
-                    result.position.name
-                  }
-                />
-                <IconButton
-                  id={result._id}
-                  aria-label="delete"
-                  onClick={this.handleOnDeleteOffer}
-                >
-                  <DeleteIcon fontSize="large" />
-                </IconButton>
-              </ListItem>
-              <Divider variant="inset" component="li" />
-            </div>
-          ))}
-        </List>
+        <div style={styles.main}>
+          <List>
+            {this.state.offers.map(result => (
+              <div>
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    primary={
+                      result.team.name +
+                      "\n" +
+                      result.position.name +
+                      " de " +
+                      result.sport.name +
+                      " en " +
+                      result.city
+                    }
+                    secondary={result.notes}
+                  />
+                  <IconButton
+                    id={result._id}
+                    aria-label="delete"
+                    onClick={this.handleOnDeleteOffer}
+                  >
+                    <DeleteIcon fontSize="large" />
+                  </IconButton>
+                </ListItem>
+                <Divider variant="inset" component="li" />
+              </div>
+            ))}
+          </List>
+        </div>
         <TableFooter />
       </div>
     );
