@@ -137,14 +137,24 @@ class OffersForm extends React.Component {
       return (
         <TextField
           value={this.state.notes}
-          id="outlined-basic"
-          label="Notas"
+          id="outlined-multiline-static"
+          label="Información adicional"
+          multiline
+          rows="4"
+          defaultValue="Default Value"
           variant="outlined"
           onChange={this.handleOnChangeNotes}
         />
       );
     }
     return null;
+  };
+
+  textButton = () => {
+    if (window.location.pathname === "/offers/search") {
+      return "BUSCAR";
+    }
+    return "CREAR OFERTA";
   };
 
   render() {
@@ -163,11 +173,11 @@ class OffersForm extends React.Component {
         <br />
         <Button
           label="Submit"
-          onClick={this.handleSearchOffer}
+          onClick={this.handleSubmit}
           variant="contained"
           color="primary"
         >
-          Buscar
+          {this.textButton()}
         </Button>
       </div>
     );
