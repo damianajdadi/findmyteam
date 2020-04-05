@@ -152,6 +152,183 @@ class Profile extends React.Component {
       .catch(console.log);
   };
 
+  userPlayer = () => {
+    return JSON.parse(localStorage.getItem("user")).type === "player";
+  };
+
+  userTeam = () => {
+    return JSON.parse(localStorage.getItem("user")).type === "team";
+  };
+
+  playerView = () => {
+    debugger;
+    if (this.userPlayer()) {
+      return (
+        <div>
+          <TextField
+            required
+            value={this.state.name}
+            id="outlined-required"
+            label={"Nombre"}
+            variant="outlined"
+            onChange={this.handleOnChangeName}
+          />
+          <br />
+          <TextField
+            required
+            id="outlined-required"
+            label="Apellido"
+            variant="outlined"
+            onChange={this.handleOnChangeSurname}
+          />
+          <br />
+          <TextField
+            type="password"
+            id="outlined-basic"
+            label="Contraseña"
+            variant="outlined"
+            onChange={(event, newValue) =>
+              this.setState({ password: newValue })
+            }
+          />
+          <br />
+          <TextField
+            required
+            value={this.state.phone}
+            id="outlined-required"
+            label="Teléfono"
+            variant="outlined"
+            onChange={this.handleOnChangePhone}
+          />
+          <br />
+          <SportsSelector
+            value={this.state.selectedSport._id}
+            sports={this.state.availableSports}
+            handleOnChangeSport={this.handleOnChangeSport}
+          />
+          <br />
+          <PositionsSelector
+            value={this.state.selectedPosition._id}
+            positions={this.state.availablePositions}
+            handleOnChangePosition={this.handleOnChangePosition}
+          />
+          <br />
+          <FormControl
+            required
+            variant="outlined"
+            className={useStyles.formControl}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Pierna Dominante
+            </InputLabel>
+            <Select
+              labelId="dominantLeg-label"
+              id="dominantLeg"
+              value={this.state.dominantLeg}
+              onChange={this.handleOnChangeDominantLeg}
+            >
+              <MenuItem value={"right-handed"}>Diestro</MenuItem>
+              <MenuItem value={"left-handed"}>Zurdo</MenuItem>
+            </Select>
+          </FormControl>
+          <br />
+          <TextField
+            value={this.state.age}
+            id="outlined-basic"
+            label="Edad"
+            variant="outlined"
+            onChange={this.handleOnChangeAge}
+          />
+          <br />
+          <TextField
+            required
+            value={this.state.city}
+            id="outlined-required"
+            label="Ciudad"
+            variant="outlined"
+            onChange={this.handleOnChangeCity}
+          />
+          <br />
+          <TextField
+            value={this.state.experience}
+            id="outlined-multiline-static"
+            label="Experiencia"
+            multiline
+            rows="4"
+            defaultValue="Default Value"
+            variant="outlined"
+            onChange={this.handleOnChangeExperience}
+          />
+          <br />
+        </div>
+      );
+    }
+    return null;
+  };
+
+  teamView = () => {
+    if (this.userTeam()) {
+      return (
+        <div>
+          <TextField
+            required
+            value={this.state.name}
+            id="outlined-required"
+            label={"Nombre"}
+            variant="outlined"
+            onChange={this.handleOnChangeName}
+          />
+          <br />
+          <TextField
+            type="password"
+            id="outlined-basic"
+            label="Contraseña"
+            variant="outlined"
+            onChange={(event, newValue) =>
+              this.setState({ password: newValue })
+            }
+          />
+          <br />
+          <TextField
+            required
+            value={this.state.phone}
+            id="outlined-required"
+            label="Teléfono"
+            variant="outlined"
+            onChange={this.handleOnChangePhone}
+          />
+          <br />
+          <SportsSelector
+            value={this.state.selectedSport._id}
+            sports={this.state.availableSports}
+            handleOnChangeSport={this.handleOnChangeSport}
+          />
+          <br />
+          <TextField
+            required
+            value={this.state.city}
+            id="outlined-required"
+            label="Ciudad"
+            variant="outlined"
+            onChange={this.handleOnChangeCity}
+          />
+          <br />
+          <TextField
+            value={this.state.experience}
+            id="outlined-multiline-static"
+            label="Experiencia"
+            multiline
+            rows="4"
+            defaultValue="Default Value"
+            variant="outlined"
+            onChange={this.handleOnChangeExperience}
+          />
+        </div>
+      );
+    }
+    return null;
+  };
+
   componentDidMount() {
     this._fetchApi();
   }
@@ -172,105 +349,8 @@ class Profile extends React.Component {
             justify="space-evenly"
             alignItems="center"
           >
-            <form noValidate autoComplete="off">
-              <TextField
-                required
-                value={this.state.name}
-                id="outlined-required"
-                label={"Nombre"}
-                variant="outlined"
-                onChange={this.handleOnChangeName}
-              />
-              <br />
-              <TextField
-                required
-                id="outlined-required"
-                label="Apellido"
-                variant="outlined"
-                onChange={this.handleOnChangeSurname}
-              />
-              <br />
-              <TextField
-                type="password"
-                id="outlined-basic"
-                label="Contraseña"
-                variant="outlined"
-                onChange={(event, newValue) =>
-                  this.setState({ password: newValue })
-                }
-              />
-              <br />
-              <TextField
-                required
-                value={this.state.phone}
-                id="outlined-required"
-                label="Teléfono"
-                variant="outlined"
-                onChange={this.handleOnChangePhone}
-              />
-              <br />
-            </form>
-            <SportsSelector
-              value={this.state.selectedSport._id}
-              sports={this.state.availableSports}
-              handleOnChangeSport={this.handleOnChangeSport}
-            />
-            <br />
-            <PositionsSelector
-              value={this.state.selectedPosition._id}
-              positions={this.state.availablePositions}
-              handleOnChangePosition={this.handleOnChangePosition}
-            />
-            <br />
-            <FormControl
-              required
-              variant="outlined"
-              className={useStyles.formControl}
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Pierna Dominante
-              </InputLabel>
-              <Select
-                labelId="dominantLeg-label"
-                id="dominantLeg"
-                value={this.state.dominantLeg}
-                onChange={this.handleOnChangeDominantLeg}
-              >
-                <MenuItem value={"right-handed"}>Diestro</MenuItem>
-                <MenuItem value={"left-handed"}>Zurdo</MenuItem>
-              </Select>
-            </FormControl>
-            <br />
-            <form noValidate autoComplete="off">
-              <TextField
-                value={this.state.age}
-                id="outlined-basic"
-                label="Edad"
-                variant="outlined"
-                onChange={this.handleOnChangeAge}
-              />
-              <br />
-              <TextField
-                required
-                value={this.state.city}
-                id="outlined-required"
-                label="Ciudad"
-                variant="outlined"
-                onChange={this.handleOnChangeCity}
-              />
-              <br />
-              <TextField
-                value={this.state.experience}
-                id="outlined-multiline-static"
-                label="Experiencia"
-                multiline
-                rows="4"
-                defaultValue="Default Value"
-                variant="outlined"
-                onChange={this.handleOnChangeExperience}
-              />
-            </form>
-            <br />
+            {this.playerView()}
+            {this.teamView()}
             <Button
               label="Submit"
               onClick={this.handleOnSubmit}

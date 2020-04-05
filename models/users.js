@@ -14,7 +14,6 @@ const userSchema = new Schema({
     age: Number,
     experience: String,
     city: String,
-    category: String
 }, {
     versionKey: false
 });
