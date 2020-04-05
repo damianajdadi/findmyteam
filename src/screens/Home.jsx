@@ -18,6 +18,7 @@ class Home extends React.Component {
     if (localStorage.getItem("user_id") === null) {
       window.location.href = "/";
       alert("Acceso denegado. Para poder acceder necesitas identificarte");
+      return null;
     }
     return (
       <div style={styles.root}>

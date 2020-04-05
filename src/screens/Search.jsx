@@ -84,6 +84,12 @@ class Search extends React.Component {
     if (localStorage.getItem("user_id") === null) {
       window.location.href = "/";
       alert("Acceso denegado. Para poder acceder necesitas identificarte");
+      return null;
+    }
+    if (JSON.parse(localStorage.getItem("user")).type === "team") {
+      window.location.href = "/home";
+      alert("Acceso denegado.");
+      return null;
     }
     return (
       <div style={styles.root}>
