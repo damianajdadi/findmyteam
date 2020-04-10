@@ -8,6 +8,9 @@ import Divider from "@material-ui/core/Divider";
 import ListItemText from "@material-ui/core/ListItemText";
 import CheckSharpIcon from "@material-ui/icons/CheckSharp";
 import IconButton from "@material-ui/core/IconButton";
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 
 const styles = {
   root: {
@@ -65,7 +68,13 @@ class Search extends React.Component {
                   " en " +
                   result.city
                 }
-                secondary={result.notes}
+                secondary={
+                  result.notes +
+                  " - " +
+                  result.team.phone +
+                  " - " +
+                  result.team.email
+                }
               />
               <IconButton
                 aria-label="delete"
@@ -95,10 +104,16 @@ class Search extends React.Component {
       <div style={styles.root}>
         <MenuAppBar />
         <div style={styles.main}>
-          <h2>Buscar Ofertas</h2>
-          <OffersForm onDefineResults={this.handleResults} />
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
+              <h2>Buscar Ofertas</h2>
+              <OffersForm onDefineResults={this.handleResults} />
+            </Grid>
+            <Grid item xs={6}>
+              {this.renderResults()}
+            </Grid>
+          </Grid>
         </div>
-        {this.renderResults()}
         <TableFooter />
       </div>
     );

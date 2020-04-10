@@ -3,8 +3,6 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
 import ListItemText from "@material-ui/core/ListItemText";
-import MenuAppBar from "../components/MenuAppBar";
-import TableFooter from "../components/TableFooter";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 
@@ -71,6 +69,7 @@ class MyOffers extends React.Component {
     }
     return (
       <div style={styles.main}>
+        <h1>Mis Ofertas</h1>
         <List>
           {this.state.offers.map(result => (
             <div>
@@ -85,7 +84,13 @@ class MyOffers extends React.Component {
                     " en " +
                     result.city
                   }
-                  secondary={result.notes}
+                  secondary={
+                    result.notes +
+                    " - " +
+                    result.team.phone +
+                    " - " +
+                    result.team.email
+                  }
                 />
                 <IconButton
                   id={result._id}

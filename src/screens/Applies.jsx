@@ -30,7 +30,6 @@ class Applies extends React.Component {
     fetch("http://localhost:5000/api/applies")
       .then(response => response.json())
       .then(data => {
-        debugger;
         data.applies.map(apply => {
           if (
             apply.player._id === JSON.parse(localStorage.getItem("user"))._id
@@ -85,7 +84,13 @@ class Applies extends React.Component {
                     " en " +
                     result.offer.city
                   }
-                  secondary={result.offer.notes}
+                  secondary={
+                    result.offer.notes +
+                    " - " +
+                    result.offer.team.phone +
+                    " - " +
+                    result.offer.team.email
+                  }
                 />
                 <IconButton
                   id={result._id}
