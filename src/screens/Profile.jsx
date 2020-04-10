@@ -51,13 +51,23 @@ class Profile extends React.Component {
       experience: "",
       city: "",
       availableSports: [],
-      availablePositions: []
+      availablePositions: [],
+      errors: {
+        password: "",
+        name: "",
+        surname: "",
+        phone: "",
+        selectedSport: "",
+        selectedPosition: "",
+        dominantLeg: "",
+        city: ""
+      }
     };
   }
 
-  handleOnChangePassword = event =>
+  handleOnChangePassword = event => {
     this.setState({ password: event.target.value });
-
+  };
   handleOnChangeName = event => this.setState({ name: event.target.value });
 
   handleOnChangeSurname = event =>
@@ -105,6 +115,25 @@ class Profile extends React.Component {
         })
       )
       .catch(console.log);
+    fetch(
+      "http://localhost:5000/api/users/" +
+        localStorage.getItem("user_id").replace(/"/g, "")
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          password: data.users.password || "",
+          name: data.users.name || "",
+          surname: data.users.surname || "",
+          phone: data.users.phone || "",
+          selectedSport: data.users.sport || "",
+          selectedPosition: data.users.position || "",
+          dominantLeg: data.users.dominantLeg || "",
+          age: data.users.age || "",
+          experience: data.users.experience || "",
+          city: data.users.city || ""
+        });
+      });
   };
 
   handleOnSubmit = () => {
@@ -130,6 +159,8 @@ class Profile extends React.Component {
     fetch(url, requestOptions)
       .then(response => {
         response.json();
+        alert("Datos de usuario modificados!");
+        window.location.href = "/profile";
       })
       .catch(console.log);
   };
@@ -175,6 +206,7 @@ class Profile extends React.Component {
           <br />
           <TextField
             required
+            value={this.state.surname}
             id="outlined-required"
             label="Apellido"
             variant="outlined"
@@ -183,12 +215,11 @@ class Profile extends React.Component {
           <br />
           <TextField
             type="password"
+            value={this.state.password}
             id="outlined-basic"
             label="Contraseña"
             variant="outlined"
-            onChange={(event, newValue) =>
-              this.setState({ password: newValue })
-            }
+            onChange={this.handleOnChangePassword}
           />
           <br />
           <TextField
@@ -201,8 +232,8 @@ class Profile extends React.Component {
           />
           <br />
           <SportsSelector
-            value={this.state.selectedSport._id}
             sports={this.state.availableSports}
+            value={this.state.selectedSport._id}
             handleOnChangeSport={this.handleOnChangeSport}
           />
           <br />
@@ -280,12 +311,11 @@ class Profile extends React.Component {
           <br />
           <TextField
             type="password"
+            value={this.state.password}
             id="outlined-basic"
             label="Contraseña"
             variant="outlined"
-            onChange={(event, newValue) =>
-              this.setState({ password: newValue })
-            }
+            onChange={this.handleOnChangePassword}
           />
           <br />
           <TextField
