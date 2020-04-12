@@ -52,21 +52,16 @@ class Profile extends React.Component {
       city: "",
       availableSports: [],
       availablePositions: [],
-      errors: {
-        password: "",
-        name: "",
-        surname: "",
-        phone: "",
-        selectedSport: "",
-        selectedPosition: "",
-        dominantLeg: "",
-        city: ""
-      }
+      errors: []
     };
   }
 
   handleOnChangePassword = event => {
     this.setState({ password: event.target.value });
+    debugger;
+    if (event.target.value.length < 1) {
+      this.state.errors.push("Password incorrecta");
+    }
   };
   handleOnChangeName = event => this.setState({ name: event.target.value });
 
@@ -386,6 +381,7 @@ class Profile extends React.Component {
               onClick={this.handleOnSubmit}
               variant="contained"
               color="Primary"
+              disabled={this.state.errors.length > 0}
             >
               EDITAR PERFIL
             </Button>

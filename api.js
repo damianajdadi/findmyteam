@@ -258,7 +258,8 @@ app.post("/api/offers/search", (req, res) => {
       }
     }
   )
-});
+}
+);
 
 
 
@@ -279,18 +280,31 @@ app.delete("/api/offers/:id", (req, res) => {
 
 // GET applies
 app.get("/api/applies", (req, res) => {
-
-  Applies.find((err, data) => {
-    if (!err) {
-      res.status(200).send({
-        success: 'true',
-        message: 'GET: OFFERS',
-        applies: data,
-      });
-    } else {
-      throw error;
-    }
-  });
+  if (req.query && req.query.offer_id) {
+    Applies.find({ "offer._id": req.query.offer_id }, (err, data) => {
+      if (!err) {
+        res.status(200).send({
+          success: 'true',
+          message: 'GET: OFFERS',
+          applies: data,
+        });
+      } else {
+        throw error;
+      }
+    })
+  } else {
+    Applies.find((err, data) => {
+      if (!err) {
+        res.status(200).send({
+          success: 'true',
+          message: 'GET: OFFERS',
+          applies: data,
+        });
+      } else {
+        throw error;
+      }
+    });
+  }
 });
 
 // POST ONE APPLY
@@ -326,6 +340,7 @@ app.delete("/api/applies/:id", (req, res) => {
     })
   })
 });
+
 
 const PORT = 5000;
 app.listen(PORT, function () {

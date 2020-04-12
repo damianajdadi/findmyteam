@@ -10,50 +10,65 @@ const styles = {
   root: {
     display: "flex",
     flexFlow: "column nowrap",
-    height: "100%"
+    height: "100%",
   },
   main: {
-    flex: 1
-  }
+    flex: 1,
+  },
 };
 
 class MyOffers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      offers: []
+      offers: [],
     };
   }
 
   _fetchApi = () => {
     let offerArray = [];
     fetch("http://localhost:5000/api/offers")
-      .then(response => response.json())
-      .then(data => {
-        data.offers.map(offer => {
+      .then((response) => response.json())
+      .then((data) => {
+        data.offers.map((offer) => {
           if (
             offer.team._id === localStorage.getItem("user_id").replace(/"/g, "")
           ) {
             offerArray.push(offer);
           }
           this.setState({
-            offers: offerArray
+            offers: offerArray,
           });
         });
       })
       .catch(console.log);
   };
 
-  handleOnDeleteOffer = e => {
-    const url = "http://localhost:5000/api/offers/" + e.currentTarget.id;
+  handleOnDeleteOffer = (e) => {
+    const urlOffers = "http://localhost:5000/api/offers/" + e.currentTarget.id;
+    const urlApplies =
+      "http://localhost:5000/api/applies?offer_id=" + e.currentTarget.id;
     const requestOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json" },
     };
-    fetch(url, requestOptions)
-      .then(response => {
+    fetch(urlOffers, requestOptions)
+      .then((response) => {
         response.json();
         window.location.reload(false);
+      })
+      .catch(console.log);
+    fetch(urlApplies)
+      .then((response) => response.json())
+      .then((data) => {
+        data.applies.map((apply) => {
+          const url = "http://localhost:5000/api/applies/" + apply._id;
+          fetch(url, requestOptions)
+            .then((response) => {
+              response.json();
+            })
+            .catch(console.log);
+        });
       })
       .catch(console.log);
   };
@@ -71,7 +86,7 @@ class MyOffers extends React.Component {
       <div style={styles.main}>
         <h1>Mis Ofertas</h1>
         <List>
-          {this.state.offers.map(result => (
+          {this.state.offers.map((result) => (
             <div>
               <ListItem alignItems="flex-start">
                 <ListItemText
@@ -84,13 +99,7 @@ class MyOffers extends React.Component {
                     " en " +
                     result.city
                   }
-                  secondary={
-                    result.notes +
-                    " - " +
-                    result.team.phone +
-                    " - " +
-                    result.team.email
-                  }
+                  secondary={result.notes + " - " + " - " + result.team.email}
                 />
                 <IconButton
                   id={result._id}

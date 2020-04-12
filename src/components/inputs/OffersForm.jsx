@@ -15,19 +15,19 @@ class OffersForm extends React.Component {
       notes: "",
       city: "",
       search: "",
-      resultsValue: []
+      resultsValue: [],
     };
   }
 
-  definePositions = id => {
+  definePositions = (id) => {
     let positionArr;
-    this.state.availableSports.map(function(sport) {
+    this.state.availableSports.map(function (sport) {
       if (sport._id === id) {
         positionArr = sport.positions;
       }
     });
     this.setState({
-      availablePositions: positionArr
+      availablePositions: positionArr,
     });
   };
 
@@ -40,24 +40,24 @@ class OffersForm extends React.Component {
     this.setState({ selectedPosition: data.props.object });
   };
 
-  handleOnChangeName = event => this.setState({ name: event.target.value });
+  handleOnChangeName = (event) => this.setState({ name: event.target.value });
 
-  handleOnChangeCity = event => this.setState({ city: event.target.value });
+  handleOnChangeCity = (event) => this.setState({ city: event.target.value });
 
-  handleOnChangeNotes = event => this.setState({ notes: event.target.value });
+  handleOnChangeNotes = (event) => this.setState({ notes: event.target.value });
 
   _fetchApi = () => {
     fetch("http://localhost:5000/api/sports")
-      .then(response => response.json())
-      .then(data =>
+      .then((response) => response.json())
+      .then((data) =>
         this.setState({
-          availableSports: data.sports
+          availableSports: data.sports,
         })
       )
       .catch(console.log);
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     if (window.location.pathname === "/offers/new") {
       this.handleCreateOffer();
     } else {
@@ -74,41 +74,47 @@ class OffersForm extends React.Component {
         sport: this.state.selectedSport,
         position: this.state.selectedPosition,
         city: this.state.city,
-        notes: this.state.notes
-      })
+        notes: this.state.notes,
+      }),
     };
-    fetch("http://localhost:5000/api/offers", requestOptions).then(response => {
-      response.json();
-      window.location.href = "/offers";
-    });
+    fetch("http://localhost:5000/api/offers", requestOptions).then(
+      (response) => {
+        response.json();
+        window.location.href = "/offers";
+      }
+    );
   };
 
-  handleSearchOffer = event => {
+  handleSearchOffer = (event) => {
     const urlApi = "http://localhost:5000/api/offers/search";
     const body = {};
-    if (this.state.selectedSport._id.length > 0) {
+    if (this.state.selectedSport && this.state.selectedSport._id) {
       body["sport"] = this.state.selectedSport;
     }
-    if (this.state.selectedPosition._id.length > 0) {
+    if (this.state.selectedPosition && this.state.selectedPosition._id) {
       body["position"] = this.state.selectedPosition;
     }
-    if (this.state.city.length > 0) {
+    if (this.state.city) {
       body["city"] = this.state.city;
     }
-    const opts = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
-    };
-    fetch(urlApi, opts)
-      .then(function(response) {
-        console.log("POST SUCCESS");
-        return response.json();
-      })
-      .then(data => {
-        this.props.onDefineResults(data.offer);
-      });
-    event.preventDefault();
+    if (!body.city && !body.position && !body.sport) {
+      alert("Por favor, introduzca algún valor para realizar la búsqueda");
+    } else {
+      const opts = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      };
+      fetch(urlApi, opts)
+        .then(function (response) {
+          console.log("POST SUCCESS");
+          return response.json();
+        })
+        .then((data) => {
+          this.props.onDefineResults(data.offer);
+        });
+      event.preventDefault();
+    }
   };
 
   componentDidMount() {
