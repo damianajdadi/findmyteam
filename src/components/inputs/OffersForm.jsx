@@ -80,7 +80,7 @@ class OffersForm extends React.Component {
     fetch("http://localhost:5000/api/offers", requestOptions).then(
       (response) => {
         response.json();
-        window.location.href = "/offers";
+        window.location.href = "/home";
       }
     );
   };
